@@ -2,9 +2,12 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! sleahck#GetChannelHistory(channelName)
+  if !exists('g:sleahckPort')
+    let g:sleahckPort = '8080'
+  endif
   let l:messageData = []
 
-  let l:url = 'http://localhost:8080/sleahck/GetHistory/'.a:channelName
+  let l:url = 'http://localhost:'.g:sleahckPort.'/sleahck/GetHistory/'.a:channelName
 
   let sleahckRes = webapi#http#get(l:url)
 
@@ -20,7 +23,7 @@ function! sleahck#GetChannelHistory(channelName)
 
   if has('patch-8.1.1594')
     call popup_menu(l:messageData, {
-        \ 'maxheight' : 50,
+        \ 'maxheight' : 40,
         \ 'moved' : 'any',
         \ 'filter' : 'popup_filter_menu',
         \ })
@@ -44,8 +47,13 @@ endfunction
 
 function! sleahck#DispChannelList()
   let l:channelList = []
-  let url = 'http://localhost:8080/sleahck/channelList'
-  let l:sleahckRes = webapi#http#get(url)
+  if !exists('g:sleahckPort')
+    let g:sleahckPort = '8080'
+  endif
+
+  let l:url = 'http://localhost:'.g:sleahckPort.'/sleahck/channelList/'
+
+  let l:sleahckRes = webapi#http#get(l:url)
   let l:res = webapi#json#decode(l:sleahckRes.content)
 
   for i in l:res
