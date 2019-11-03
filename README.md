@@ -4,7 +4,8 @@
 This plugin is does Slack on Vim.
 
 ## Done operation check
-manjaro
+manjaro<br>
+macOS<br>
 
 ## Library
 [matttn/webapi-vim](https://github.com/mattn/webapi-vim)<br>
